@@ -20,6 +20,9 @@ variables:
   publishArtifact: 'True'
 
 steps:
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  condition: and(succeeded(), eq(variables['publishArtifact'], 'True'))
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -32,13 +35,6 @@ steps:
       }
       Write-Host "##vso[task.setvariable variable=publishArtifact;]$publishArtifact"
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore project dependencies'
-  inputs:
-    command: 'restore'
-    projects: '*/.sln'
-    feedsToUse: 'config'
-    nugetConfigPath: 'nuget.config'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build project'
@@ -57,6 +53,11 @@ steps:
     publishWebProjects: false
     zipAfterPublish: true
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  condition: and(succeeded(), eq(variables['publishArtifact'], 'True'))
+
+# - task: AzureRmWebAppDeployment@4
+#   inputs:
+#     ConnectionType: 'AzureRM'
+#     azureSubscription: 'Azure subscription 1(50de5f22-80d8-4e7a-934b-5f557c4d3f78)'
+#     appType: 'webApp'
+#     WebAppName: 'demo-training'
+#     packageForLinux: '$(System.DefaultWorkingDirectory)/webApp.zip'
