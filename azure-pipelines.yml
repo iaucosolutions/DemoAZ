@@ -54,10 +54,10 @@ steps:
     zipAfterPublish: true
 
 
-# - task: AzureRmWebAppDeployment@4
-#   inputs:
-#     ConnectionType: 'AzureRM'
-#     azureSubscription: 'Azure subscription 1(50de5f22-80d8-4e7a-934b-5f557c4d3f78)'
-#     appType: 'webApp'
-#     WebAppName: 'demo-training'
-#     packageForLinux: '$(System.DefaultWorkingDirectory)/webApp.zip'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(50de5f22-80d8-4e7a-934b-5f557c4d3f78)'
+    appType: 'webApp'
+    WebAppName: 'demo-training'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/webApp.zip'
