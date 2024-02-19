@@ -9,7 +9,7 @@ trigger:
 - S_*
 
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'windows-latest'
 
 variables:
   majorVersion: 0
