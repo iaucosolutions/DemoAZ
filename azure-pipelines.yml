@@ -1,38 +1,34 @@
-name: 'API-$(majorVersion).$(minorVersion).$(patchVersion).$(rev:r)'
-
 trigger:
-- release/*
-- R_*
-- hotfix/*
-- feature/*
 - main
-- S_*
 
 pool:
   vmImage: 'windows-latest'
 
 variables:
-  majorVersion: 0
-  minorVersion: 0
-  patchVersion: 1
-  buildConfiguration: 'Release'
-  projectName: 'AzureDemoProj'
-  publishArtifact: 'True'
+  solution:'**/*.sln'
+  buildPlatform:'Any CPU'  
+  buildConfiguration:'Release'
 
 steps:
+- task: NuGetToolInstaller@1
+ 
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build project'
+- task: NuGetCommand@2
   inputs:
-    command: 'build'
-    projects: '*/.csproj'
-    arguments: --configuration $(buildConfiguration)
+	restoreSolution: '$(solution)'
 
+
+- task:
+  inputs:
+	solution: '$(solution)'
+	msbuildArgs :'/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\wepApp.zip"'
+	platform: '$(buildPlatform)'
+	configuration:'$(buildConfiguration)'
 
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure subscription 1(50de5f22-80d8-4e7a-934b-5f557c4d3f78)'
     appType: 'webApp'
-    WebAppName: 'demo-training'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/webApp.zip'
+    WebAppName: 'demoazpro'
+    packageForLinux: '$(build.artifactstagingdirectory)\wepApp.zip'
