@@ -17,7 +17,7 @@ steps:
 	  restoreSolution: '$(solution)'
 
 - task: VSBuild@1
-  inputs:
+    inputs:
 	  solution:'$(solution)'
 	  msbuildArgs :'/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\wepApp.zip"'
 	  platform: '$(buildPlatform)'
