@@ -18,7 +18,7 @@ steps:
      solution: '$(solution)'
      msbuildArgs: /p:DeployOnBuild=true /p:WebPublishMethod=Package
       /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true
-      /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\wepApp.zip"
+      /p:DesktopBuildPackageLocation="$(System.DefaultWorkingDirectory)/**/*.zip"
      platform: '$(buildPlatform)'
      configuration: '$(buildConfiguration)'
   - task: AzureRmWebAppDeployment@4
@@ -27,4 +27,4 @@ steps:
       azureSubscription: Azure subscription 1(50de5f22-80d8-4e7a-934b-5f557c4d3f78)
       appType: webApp
       WebAppName: demoazpro
-      packageForLinux: $(build.artifactstagingdirectory)\wepApp.zip
+      packageForLinux: $(System.DefaultWorkingDirectory)/**/*.zip
