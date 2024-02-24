@@ -14,7 +14,7 @@ namespace AzureDemoProj.Controllers
         [HttpGet]
         public string Get()
         {
-            string outputStr = "Welcome this page";
+            string outputStr = "Welcome To New Page";
             return outputStr;
         }
     }
